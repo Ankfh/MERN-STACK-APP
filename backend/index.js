@@ -4,21 +4,26 @@ require("dotenv").config();
 
 const path = require("path");
 const fileupload = require("express-fileupload");
-
+const app = express();
+app.use(
+  cors({
+    origin: ["http://localhost:3000/"],
+    methods: ["*"],
+    credentials: true,
+  })
+);
 //routers
 const userRouter = require("./routes/user");
-const companyRouter = require('./routes/companyRouter')
-const productRouter = require('./routes/productRouter')
-const productTransferRouter =require('./routes/ProductTransferRouter')
-const colleagueRouter = require('./routes/colleagueRouter')
-const userSignupRouter = require('./routes/userSignupRouter')
-const adminRouter =require('./routes/adminRouter')
+const companyRouter = require("./routes/companyRouter");
+const productRouter = require("./routes/productRouter");
+const productTransferRouter = require("./routes/ProductTransferRouter");
+const colleagueRouter = require("./routes/colleagueRouter");
+const userSignupRouter = require("./routes/userSignupRouter");
+const adminRouter = require("./routes/adminRouter");
 
 const connectDB = require("./db");
 connectDB();
 
-const app = express();
-app.use(cors());
 app.use(express.json());
 app.use(
   fileupload({
@@ -39,7 +44,6 @@ app.use("/api/transferproduct", productTransferRouter);
 app.use("/api/colleague", colleagueRouter);
 app.use("/api/usersignup", userSignupRouter);
 app.use("/api/admin", adminRouter);
-
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
